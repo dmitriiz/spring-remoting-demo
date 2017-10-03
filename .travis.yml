@@ -1,0 +1,16 @@
+sudo: required
+language: java
+services:
+- docker
+script:
+- cd docker
+- cp ../srd-service/target/srd-service-*.jar demo.jar
+- docker build -t dmitriiz/srd-service .
+- cp ../srd-front/target/srd-front-*.jar demo.jar
+- docker build -t dmitriiz/srd-front .
+after_success:
+- if [ "$TRAVIS_BRANCH" == "master" ]; then
+  docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+  docker push dmitriiz/srd-service;
+  docker push dmitriiz/srd-front;
+  fi
