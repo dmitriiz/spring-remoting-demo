@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-remoting-demo
+spec:
+  ports:
+  - port: 80
+    targetPort: http
+    protocol: TCP
+    name: http
+  selector:
+    app: spring-remoting-demo
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: spring-remoting-demo
+spec:
+  rules:
+  - host: spring-remoting-demo.org
+    http:
+      paths:
+      - backend:
+          serviceName: spring-remoting-demo
+          servicePort: http
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: spring-remoting-demo-front
+  labels:
+    app: spring-remoting-demo
+spec:
+  containers:
+  - name: spring-remoting-demo-front
+    image: dmitriiz/srd-front:latest
+    ports:
+    - name: http
+      containerPort: 8080
+    imagePullPolicy: Always
+  restartPolicy: Always
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: spring-remoting-demo-service
+  labels:
+    app: spring-remoting-demo
+spec:
+  template:
+    metadata:
+      labels:
+        app: spring-remoting-demo
+    spec:
+      containers:
+      - name: spring-remoting-demo-service
+        image: dmitriiz/srd-service:latest
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 8080
+      restartPolicy: Always
