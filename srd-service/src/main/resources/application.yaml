@@ -1,0 +1,7 @@
+spring:
+  application: srd-service
+  rabbitmq:
+    host: noming-rabbitmq.default.svc.cluster.local
+    port: 5672
+    username: demo
+    password: demo

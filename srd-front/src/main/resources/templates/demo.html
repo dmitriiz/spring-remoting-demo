@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Remoting Demo</title>
+</head>
+<body>
+
+    <form method="post">
+        <input type="submit" value="request" />
+    </form>
+
+    <div th:if="${demo != null}">
+        <h2 th:text="${demo.hostname}"/>
+        <table>
+            <tr th:each="entry : ${demo.addresses}">
+                <td th:text="${entry}"/>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
