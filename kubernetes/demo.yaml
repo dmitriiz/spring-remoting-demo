@@ -38,6 +38,12 @@ spec:
     - name: http
       containerPort: 8080
     imagePullPolicy: Always
+    livenessProbe:
+      httpGet:
+        path: /application/status
+        port: 8080
+      initialDelaySeconds: 30
+      periodSeconds: 10
   restartPolicy: Always
 ---
 apiVersion: extensions/v1beta1
